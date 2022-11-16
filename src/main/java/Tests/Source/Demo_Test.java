@@ -1,6 +1,8 @@
 package Tests.Source;
 
 import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import io.restassured.response.ResponseBody;
 import org.hamcrest.Matchers;
 import java.util.concurrent.TimeUnit;
 import static io.restassured.RestAssured.*;
@@ -17,9 +19,11 @@ public class Demo_Test {
 
     @Test
     public void GetToken() {
-        given().baseUri(URl).
+       ResponseBody Res= given().baseUri(URl).
                 header("x-api-key", API_Key).
                 when().get("/workspaces").
-                then().log().body().statusCode(200).time(lessThan(5000l));
+                then().statusCode(200).time(lessThan(5000l)).assertThat().extract().response().body();
+       System.out.println("Response is"+Res.asString());
+
     }
 }
